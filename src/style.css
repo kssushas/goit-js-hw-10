@@ -1,0 +1,37 @@
+body{
+    
+}
+img{
+    display: flex;
+    width:300px;
+    height: 200px;
+}
+h2{
+  margin: 0 0 10px 0;
+}
+
+p{
+    max-width: 370px;
+    margin: 0;
+}
+
+.border{
+    position: absolute;
+    top: 50%;
+    left:50%;
+    transform: translate(-50%, -50%);
+    width: 60%;
+    padding: 20px 20px 30px 20px;
+    border: 2px solid grey;
+}
+
+.block{
+    display: flex;
+    gap: 40px;
+    position: relative;
+}
+
+.temperament{
+    position: absolute;
+    bottom:0;
+}
