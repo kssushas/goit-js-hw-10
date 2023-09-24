@@ -1,12 +1,13 @@
 import { fetchBreeds, fetchCatByBreed } from './cat-api';
-export let select = document.querySelector('.breed-select');
-export const catInfo = document.querySelector('.cat-info');
-export const loader = document.querySelector('.loader');
-export const error = document.querySelector('.error');
+const select = document.querySelector('.breed-select');
+const catInfo = document.querySelector('.cat-info');
+const loader = document.querySelector('.loader');
+const error = document.querySelector('.error');
+
 loader.style.display = 'none';
 error.style.display = 'none';
 
-select.addEventListener('change', fetchCatByBreed);
+select.addEventListener('change', hendleClick);
 
 fetchBreeds().then(data => {
   let arrayId = [];
@@ -25,10 +26,34 @@ function createSelectMarkup(catId) {
     .join(' ');
 }
 
-export function createMarkup(params) {
+function hendleClick(e) {
+  loader.style.display = 'block';
+  catInfo.style.display = 'none';
+  error.style.display = 'none';
+
+  fetchCatByBreed(e.target.value)
+    .then(data => {
+      createMarkup(data);
+    })
+    .catch(er => {
+      error.style.display = 'block';
+      loader.style.display = 'none';
+      catInfo.style.display = 'none';
+    });
+}
+
+function createMarkup(dataCat) {
+  const data = dataCat[0].breeds[0];
+
   catInfo.style.display = 'block';
   catInfo.classList.add('border');
-  let catInformation = `<h2>${params[0].breeds[0].name}</h2><div class="block"><img src=${params[0].url} alt="cat"><div"><p>${params[0].breeds[0].description}</p><p class="temperament"><strong>Temperament: </strong>${params[0].breeds[0].temperament}</p></div></div>`;
-  catInfo.innerHTML = catInformation;
+
+  catInfo.innerHTML = `<h2>${data.name}</h2>
+  <div class="block"><img src=${dataCat[0].url} alt="cat">
+  <div">
+  <p>${data.description}</p>
+  <p class="temperament"><strong>Temperament: </strong>${data.temperament}</p>
+  </div>
+  </div>`;
   loader.style.display = 'none';
 }
